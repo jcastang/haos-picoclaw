@@ -2,6 +2,16 @@
 
 All notable changes to this Home Assistant add-on are documented here. Newest entries first.
 
+## [0.1.18] - 2026-10-22
+
+### Fixed
+- Rewrite root-absolute HTML src and href references to browser-relative URLs, retaining the public Home Assistant Ingress origin and session prefix for frontend CSS, JS and site.webmanifest.
+- Avoid relying on X-Ingress-Path for static HTML asset links because its presence is not guaranteed in the request received by NGINX.
+- Synchronize release metadata and add CI assertions for the asset rewrites.
+
+### Validation
+- User observed /assets/index-B96BmGCd.css and /site.webmanifest escaping Ingress and returning 404. Live verification is required; frontend JavaScript-generated absolute URLs may need separate handling.
+
 ## [0.1.17] - 2026-10-22
 
 ### Fixed
