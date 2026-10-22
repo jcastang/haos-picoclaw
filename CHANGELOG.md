@@ -1,6 +1,12 @@
 # Changelog
 
-## [0.1.26] - 2026-10-22
+## [0.1.27] - 2026-10-22
+
+### Fixed
+- Align /api/ URL rewriting with /assets/ in NGINX, preserving the Home Assistant Ingress prefix for quoted strings and JavaScript template literals.
+
+
+## [0.1.27] - 2026-10-22
 
 ### Fixed
 - Rewrite root-absolute frontend `/api/` URLs to relative `api/` URLs so requests resolve through Home Assistant Ingress, including double-quoted, single-quoted, and JavaScript template-literal forms.
