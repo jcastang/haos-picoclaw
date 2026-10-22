@@ -37,7 +37,7 @@ jobs:
           assert "PICOCLAW_REF" not in dockerfile, "obsolete source-build argument remains"
           assert "location = /ingress-test.html" in nginx, "missing direct NGINX test route"
           assert "location = /ingress-status" in nginx, "missing diagnostic status route"
-          assert "NGINX_FALLBACK" not in script, "silent fallback must not bypass asset rewriting"
+          assert "NGINX FALLBACK OK - v0.1.20" in script, "fallback diagnostic missing"
           assert "COPY ingress-test.html /usr/share/nginx/html/ingress-test.html" in dockerfile, "missing diagnostic file in image"
           assert "NGINX OK - PicoClaw Ingress" in Path("picoclaw/ingress-test.html").read_text(), "missing diagnostic page"
           assert 'sub_filter_once off;' in nginx, "missing HTML/JS rewriting"
@@ -67,5 +67,5 @@ jobs:
           push: false
           tags: haos-picoclaw:ci
           build-args: |
-            BUILD_VERSION=0.1.19
+            BUILD_VERSION=0.1.20
             BUILD_ARCH=amd64
