@@ -48,7 +48,7 @@ jobs:
           assert 'X-PicoClaw-Proxy-Mode' in nginx, "missing primary proxy diagnostic"
           assert 'FATAL: NGINX configuration invalid' in script, "missing explicit fatal NGINX validation"
           assert 'sub_filter_types application/javascript text/javascript text/css;' in nginx, "missing JS/CSS rewriting"
-          assert """sub_filter '<head>' '<head><base href="$http_x_ingress_path/">';""" in nginx, "missing Ingress HTML base URL"
+          assert """sub_filter '<head>' '<head><base href="./"><script src="ingress-api-shim.js"></script>';""" in nginx, "missing early API shim injection"
           assert 'absolute_redirect off;' in nginx, "internal redirect origin must not leak"
           assert '"/assets/' in nginx, "missing generic assets rewrite"
           assert "'/assets/" in nginx, "missing single-quoted assets rewrite"
