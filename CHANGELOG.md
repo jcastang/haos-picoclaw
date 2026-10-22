@@ -2,6 +2,18 @@
 
 All notable changes to this Home Assistant add-on are documented here. Newest entries first.
 
+## [0.1.19] - 2026-10-22
+
+### Fixed
+- Apply one global HTML base URL using Home Assistant X-Ingress-Path, so Vite's entire /assets/* family, manifest and favicon resolve inside the Ingress session even on nested frontend routes.
+- Keep the existing root-absolute src/href rewrites and add CSS url(/ rewriting.
+- Remove the silent NGINX fallback, which previously disabled all asset rewriting while leaving the add-on running; fail with an explicit startup error instead.
+- Disable NGINX absolute redirects to avoid leaking the internal :8099 listener.
+- Synchronize release metadata and CI checks.
+
+### Validation
+- Based on the upstream Vite index.html, Vite config and TanStack router entrypoint. No frontend rebuild required; live Home Assistant verification is still needed. JS-generated root-absolute routes remain a possible limitation.
+
 ## [0.1.18] - 2026-10-22
 
 ### Fixed
