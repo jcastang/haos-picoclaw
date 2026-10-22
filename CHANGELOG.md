@@ -8,7 +8,7 @@ All notable changes to this Home Assistant add-on are documented here. Newest en
 - Build a dedicated minimal Alpine runtime image instead of extending `ghcr.io/sipeed/picoclaw:launcher`.
 - Compile the official `picoclaw` and `picoclaw-launcher` binaries from the same pinned upstream source revision using the upstream frontend and Go build workflow.
 - Pin the upstream source revision through `PICOCLAW_REF` for reproducible builds.
-- Include only the runtime binaries and required Alpine packages in the final image.
+- Copy the architecture-specific core binary into the runtime image and include only runtime binaries and required Alpine packages in the final image.
 - Update the README to describe the custom image, source pin, and required Ingress validation.
 
 ### Maintained
