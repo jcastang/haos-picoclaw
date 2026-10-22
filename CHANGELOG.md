@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.26] - 2026-10-22
+
+### Fixed
+- Rewrite root-absolute frontend `/api/` URLs to relative `api/` URLs so requests resolve through Home Assistant Ingress, including double-quoted, single-quoted, and JavaScript template-literal forms.
+
+### Validation
+- Docker smoke test reported successful before release; live API routing through Home Assistant Ingress still needs verification.
+
+
 ## [0.1.25] - 2026-10-22
 
 ### Fixed
