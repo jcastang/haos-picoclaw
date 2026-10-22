@@ -2,6 +2,18 @@
 
 All notable changes to this Home Assistant add-on are documented here. Newest entries first.
 
+## [0.1.22] - 2026-10-22
+
+### Diagnostics and fixes
+- Explicitly request identity encoding from PicoClaw for NGINX sub_filter processing.
+- Add X-PicoClaw-Proxy-Mode response header to distinguish primary rewriting from fallback.
+- Add X-PicoClaw-Ingress-Path response header in primary mode to diagnose whether Supervisor supplies the dynamic path; this may contain the session path and should not be shared verbatim.
+- Align generic /assets/* rewrites with browser-relative paths.
+- Synchronize version metadata and CI.
+
+### Note
+- Browser Brotli encoding can be applied after the add-on by Home Assistant; it does not alone prove upstream compression. No live validation yet.
+
 ## [0.1.21] - 2026-10-22
 
 ### Fixed
