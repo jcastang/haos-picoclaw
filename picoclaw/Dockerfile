@@ -2,7 +2,7 @@
 # adds the NGINX reverse proxy needed to expose it safely through Ingress.
 FROM ghcr.io/sipeed/picoclaw:launcher
 
-ARG BUILD_VERSION=0.1.14
+ARG BUILD_VERSION=0.1.15
 ARG BUILD_ARCH=amd64
 
 LABEL \
