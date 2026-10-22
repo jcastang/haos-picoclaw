@@ -2,6 +2,16 @@
 
 All notable changes to this Home Assistant add-on are documented here. Newest entries first.
 
+## [0.1.21] - 2026-10-22
+
+### Fixed
+- Rewrite all root-absolute /assets/* references in JavaScript and HTML to paths relative to the dynamically injected Ingress base, including double-quoted, single-quoted and template-literal forms.
+- Cover CSS url(/assets/*) and /site.webmanifest references without embedding a fixed Home Assistant host or session token.
+- Synchronize release metadata and CI checks.
+
+### Note
+- Requests already made to Home Assistant's public /assets/* cannot be intercepted by add-on NGINX; the rewrite must happen before the browser issues those requests. Live verification is still required.
+
 ## [0.1.20] - 2026-10-22
 
 ### Fixed
