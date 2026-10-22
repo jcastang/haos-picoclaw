@@ -50,8 +50,8 @@ server {
 NGINX_FALLBACK
   nginx -t 2>&1 || { echo "[PicoClaw app] FATAL: fallback NGINX configuration failed"; exit 1; }
 fi
-echo "[PicoClaw app] Starting Launcher on internal port 18800"
-/usr/local/bin/picoclaw-launcher -console -public -no-browser &
+echo "[PicoClaw app] Starting Launcher bound to 127.0.0.1:18800"
+/usr/local/bin/picoclaw-launcher -console -port 18800 -host 127.0.0.1 -no-browser &
 launcher_pid=$!
 
 cleanup() {
