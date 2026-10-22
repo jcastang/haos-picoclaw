@@ -17,6 +17,7 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           import yaml
+
           files = [
               Path("repository.yaml"),
               Path("picoclaw/config.yaml"),
@@ -26,6 +27,11 @@ jobs:
               with path.open(encoding="utf-8") as stream:
                   yaml.safe_load(stream)
               print(f"OK: {path}")
+
+          config = yaml.safe_load(Path("picoclaw/config.yaml").read_text(encoding="utf-8"))
+          build = yaml.safe_load(Path("picoclaw/build.yaml").read_text(encoding="utf-8"))
+          assert config["version"] == build["args"]["BUILD_VERSION"], "config/build version mismatch"
+          print(f"OK: add-on version {config['version']} is consistent")
           PY
       - name: Validate shell script syntax
         run: bash -n picoclaw/run.sh
@@ -39,6 +45,6 @@ jobs:
           push: false
           tags: haos-picoclaw:ci
           build-args: |
-            BUILD_FROM=ghcr.io/sipeed/picoclaw:launcher
-            BUILD_VERSION=0.1.2
+            BUILD_VERSION=0.1.7
             BUILD_ARCH=amd64
+            PICOCLAW_REF=bbf6893ca7afad27f1d00a0f5a45982a549c6ed6
