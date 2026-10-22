@@ -53,7 +53,7 @@ server {
         proxy_set_header Host $http_host;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
-        proxy_set_header Accept-Encoding "";
+        proxy_set_header Accept-Encoding "identity";\n        add_header X-PicoClaw-Proxy-Mode "fallback-v0.1.22" always;
         proxy_redirect ~^https?://[^/]+/(.*)$ $1;
         proxy_redirect ~^/(.*)$ $1;
         proxy_read_timeout 3600s;
