@@ -1,24 +1,22 @@
 name: "PicoClaw"
-slug: "picoclaw"
-description: "PicoClaw Launcher and Gateway on Home Assistant OS"
 version: "0.1.2"
-url: "https://github.com/sipeed/picoclaw"
+slug: "picoclaw"
+description: "PicoClaw Web Launcher, integrated into Home Assistant via Ingress"
+url: "https://github.com/jcastang/haos-picoclaw"
 arch:
   - amd64
 startup: application
 boot: auto
 init: false
-hassio_api: false
-hassio_role: default
-homeassistant_api: false
-host_network: false
 ingress: true
 ingress_port: 8099
 ingress_panel: true
 panel_title: "PicoClaw"
 panel_icon: "mdi:robot"
+ports:
+  18800/tcp: null
+ports_description:
+  18800/tcp: "Launcher internal port (not exposed on the host)"
 map:
   - type: data
     read_only: false
-options: {}
-schema: {}
