@@ -1,0 +1,43 @@
+name: Validate app
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate YAML files
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import yaml
+          files = [Path('repository.yaml'), Path('picoclaw/config.yaml'), Path('picoclaw/build.yaml')]
+          for path in files:
+              with path.open(encoding='utf-8') as stream:
+                  yaml.safe_load(stream)
+              print(f'OK: {path}')
+          PY
+
+      - name: Validate shell script syntax
+        run: bash -n picoclaw/run.sh
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build amd64 app image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./picoclaw
+          platforms: linux/amd64
+          push: false
+          tags: haos-picoclaw:ci
+          build-args: |
+            BUILD_FROM=ghcr.io/sipeed/picoclaw:launcher
+            BUILD_VERSION=0.1.0
+            BUILD_ARCH=amd64
