@@ -6,8 +6,8 @@ PICO_DIR="/root/.picoclaw"
 
 mkdir -p "${DATA_DIR}" /run/nginx
 
-# The upstream Launcher image stores config, workspace, launcher settings,
-# and launcher-auth.db under ~/.picoclaw. Keep that entire directory persistent.
+# The Launcher stores config, workspace, launcher settings, and authentication
+# data under ~/.picoclaw. Persist the whole directory across add-on upgrades.
 if [[ ! -L "${PICO_DIR}" ]]; then
   if [[ -d "${PICO_DIR}" && -n "$(ls -A "${PICO_DIR}" 2>/dev/null || true)" ]]; then
     cp -an "${PICO_DIR}/." "${DATA_DIR}/"
