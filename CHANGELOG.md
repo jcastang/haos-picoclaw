@@ -2,6 +2,23 @@
 
 All notable changes to this Home Assistant add-on are documented here. Newest entries first.
 
+## [0.1.7] - 2026-10-22
+
+### Fixed
+- Remove the obsolete `BUILD_FROM` argument from the validation pipeline; the custom multi-stage Dockerfile builds from pinned upstream source and does not consume a prebuilt base image.
+- Update the CI build metadata from the stale `0.1.2` value to `0.1.7`.
+- Give Docker image metadata arguments defaults so direct local builds and CI builds do not produce empty version/architecture labels.
+- Fail the Docker build immediately if either expected upstream binary was not produced.
+- Add a validation assertion that the Home Assistant add-on version and build metadata remain aligned.
+
+### Maintained
+- Keep `config.yaml`, `build.yaml`, the Dockerfile defaults, and CI build arguments aligned at `0.1.7`.
+- Continue building the core and Launcher from the same pinned upstream source revision and preserve the existing Ingress/proxy and persistent-storage configuration.
+
+### Validation
+- Reviewed the validation workflow and compared the build commands with the pinned upstream Makefile and frontend package scripts.
+- GitHub Actions must complete the new image build to confirm the fix in CI; no successful build is claimed before that run finishes.
+
 ## [0.1.6] - 2026-10-22
 
 ### Changed
