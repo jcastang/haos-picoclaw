@@ -2,6 +2,17 @@
 
 All notable changes to this Home Assistant add-on are documented here. Newest entries first.
 
+## [0.1.8] - 2026-10-22
+
+### Fixed
+- Remove the strict frozen-lockfile check from the frontend dependency installation, which was the failing step reported by the CI Docker build.
+- Keep the frontend source and package manifests pinned to the same upstream commit; dependencies are resolved during the image build if its lockfile needs reconciliation.
+- Synchronize add-on, Docker image, build metadata, and validation workflow version to `0.1.8`.
+
+### Validation
+- The reported failure occurs during `pnpm install --frozen-lockfile`; the Dockerfile now uses `pnpm install --no-frozen-lockfile`.
+- The updated GitHub Actions run still needs to complete to confirm the subsequent frontend and Go compilation stages.
+
 ## [0.1.7] - 2026-10-22
 
 ### Fixed
