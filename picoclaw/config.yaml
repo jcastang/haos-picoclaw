@@ -1,0 +1,24 @@
+name: "PicoClaw"
+slug: "picoclaw"
+description: "PicoClaw Launcher and Gateway on Home Assistant OS"
+version: "0.1.0"
+url: "https://github.com/sipeed/picoclaw"
+arch:
+  - amd64
+startup: application
+boot: auto
+init: false
+hassio_api: false
+hassio_role: default
+homeassistant_api: false
+host_network: false
+ingress: false
+ports:
+  18800/tcp: 18800
+ports_description:
+  18800/tcp: "PicoClaw Launcher web UI"
+map:
+  - type: data
+    read_only: false
+options: {}
+schema: {}
