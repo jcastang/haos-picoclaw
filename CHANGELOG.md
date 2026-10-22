@@ -2,6 +2,16 @@
 
 All notable changes to this Home Assistant add-on are documented here. Newest entries first.
 
+## [0.1.13] - 2026-10-22
+
+### Fixed
+- Pin the PicoClaw Launcher listener explicitly to 127.0.0.1:18800, matching NGINX's upstream, even when persisted launcher-config.json contains another port or public listener setting.
+- Keep Launcher private to the add-on and avoid exposing the backend on all container interfaces.
+- Check listener arguments in CI and synchronize add-on, Dockerfile, build metadata and CI version.
+
+### Validation
+- Based on the upstream Launcher -port and -host flag precedence. Live Home Assistant startup and Ingress checks still required.
+
 ## [0.1.12] - 2026-10-22
 
 ### Fixed
