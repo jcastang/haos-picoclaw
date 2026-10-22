@@ -32,13 +32,15 @@ RUN CONFIG_PKG=github.com/sipeed/picoclaw/pkg/config && \
     GO_VERSION=$(go env GOVERSION) && \
     CGO_ENABLED=0 go build -v -tags goolm,stdjson \
       -ldflags "-X ${CONFIG_PKG}.Version=${VERSION} -X ${CONFIG_PKG}.GitCommit=${GIT_COMMIT} -X ${CONFIG_PKG}.BuildTime=${BUILD_TIME} -X ${CONFIG_PKG}.GoVersion=${GO_VERSION} -s -w" \
-      -o build/picoclaw-launcher ./web/backend/
+      -o build/picoclaw-launcher ./web/backend/ \
+    && test -s build/picoclaw-linux-amd64 \
+    && test -s build/picoclaw-launcher
 
 # Minimal runtime: official PicoClaw binaries plus our Home Assistant proxy.
 FROM alpine:3.23
-ARG BUILD_VERSION
-ARG BUILD_ARCH
-ARG PICOCLAW_REF
+ARG BUILD_VERSION=0.1.7
+ARG BUILD_ARCH=amd64
+ARG PICOCLAW_REF=bbf6893ca7afad27f1d00a0f5a45982a549c6ed6
 
 LABEL \
   io.hass.name="PicoClaw" \
