@@ -2,5 +2,5 @@ labels:
   org.opencontainers.image.title: "PicoClaw"
   org.opencontainers.image.description: "Official PicoClaw Launcher via Home Assistant Ingress"
 args:
-  BUILD_VERSION: "0.1.25"
+  BUILD_VERSION: "0.1.26"
   BUILD_ARCH: "amd64"
