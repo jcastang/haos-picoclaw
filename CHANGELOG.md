@@ -2,6 +2,16 @@
 
 All notable changes to this Home Assistant add-on are documented here. Newest entries first.
 
+## [0.1.11] - 2026-10-22
+
+### Changed
+- Rewrite root-relative PicoClaw Launcher HTML asset links and selected JavaScript navigation, API, WebSocket, and asset URLs using the Home Assistant X-Ingress-Path header, following patterns from existing HA add-ons.
+- Disable upstream response compression to enable NGINX sub_filter, while retaining the official Launcher image, authentication redirect/cookie handling and WebSocket forwarding.
+- Validate NGINX syntax in CI and synchronize all version metadata to 0.1.11.
+
+### Validation
+- CI build and live Home Assistant Ingress verification are still required. Some client-side router URLs may need additional upstream changes.
+
 ## [0.1.10] - 2026-10-22
 
 ### Fixed
