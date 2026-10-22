@@ -22,6 +22,6 @@ RUN apk add --no-cache bash nginx \
 COPY nginx.conf /etc/nginx/http.d/default.conf
 COPY ingress-test.html /usr/share/nginx/html/ingress-test.html
 COPY run.sh /run.sh
-RUN chmod 0755 /run.sh
+RUN chmod 0755 /run.sh && nginx -t
 
 ENTRYPOINT ["/bin/bash", "/run.sh"]
