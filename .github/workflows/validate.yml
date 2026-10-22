@@ -30,8 +30,12 @@ jobs:
 
           config = yaml.safe_load(Path("picoclaw/config.yaml").read_text(encoding="utf-8"))
           build = yaml.safe_load(Path("picoclaw/build.yaml").read_text(encoding="utf-8"))
+          dockerfile = Path("picoclaw/Dockerfile").read_text(encoding="utf-8")
           assert config["version"] == build["args"]["BUILD_VERSION"], "config/build version mismatch"
+          assert "FROM ghcr.io/sipeed/picoclaw:launcher" in dockerfile, "expected official Launcher base image"
+          assert "PICOCLAW_REF" not in dockerfile, "obsolete source-build argument remains"
           print(f"OK: add-on version {config['version']} is consistent")
+          print("OK: Dockerfile uses the official upstream Launcher image")
           PY
       - name: Validate shell script syntax
         run: bash -n picoclaw/run.sh
@@ -45,6 +49,5 @@ jobs:
           push: false
           tags: haos-picoclaw:ci
           build-args: |
-            BUILD_VERSION=0.1.8
+            BUILD_VERSION=0.1.9
             BUILD_ARCH=amd64
-            PICOCLAW_REF=bbf6893ca7afad27f1d00a0f5a45982a549c6ed6
