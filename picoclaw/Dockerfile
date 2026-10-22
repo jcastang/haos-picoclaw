@@ -11,7 +11,9 @@ RUN git init && git remote add origin https://github.com/sipeed/picoclaw.git \
     && git checkout --detach FETCH_HEAD
 WORKDIR /src/web/frontend
 RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
-RUN CI=true pnpm install --frozen-lockfile
+# The pinned upstream snapshot has a lockfile that can fail pnpm's strict
+# frozen-lockfile check in CI. Resolve against the pinned package manifests.
+RUN pnpm install --no-frozen-lockfile
 RUN pnpm build:backend
 
 # Build both official Go binaries against the matching upstream source.
@@ -38,7 +40,7 @@ RUN CONFIG_PKG=github.com/sipeed/picoclaw/pkg/config && \
 
 # Minimal runtime: official PicoClaw binaries plus our Home Assistant proxy.
 FROM alpine:3.23
-ARG BUILD_VERSION=0.1.7
+ARG BUILD_VERSION=0.1.8
 ARG BUILD_ARCH=amd64
 ARG PICOCLAW_REF=bbf6893ca7afad27f1d00a0f5a45982a549c6ed6
 
