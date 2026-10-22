@@ -2,6 +2,17 @@
 
 All notable changes to this Home Assistant add-on are documented here. Newest entries first.
 
+## [0.1.24] - 2026-10-22
+
+### Changed
+- Release the no-fallback NGINX startup behavior: invalid NGINX configuration now stops the add-on with a clear fatal error.
+- Align CI assertions with the active configuration and version metadata.
+- Update the proxy diagnostic label to v0.1.24.
+
+### Validation
+- Reproduced the active NGINX directives in a local NGINX 1.26.3 test configuration: nginx -t succeeded.
+- No test was performed inside the upstream Alpine-based PicoClaw Launcher image or a live Home Assistant installation.
+
 ## [0.1.23] - 2026-10-22
 
 ### Maintenance
