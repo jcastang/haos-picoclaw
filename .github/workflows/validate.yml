@@ -32,8 +32,17 @@ jobs:
           assert "proxy_redirect ~^(/.*)$ $http_x_ingress_path$1;" in nginx, "missing Ingress Location rewrite"
           assert 'proxy_cookie_path / "$http_x_ingress_path/";' in nginx, "missing Ingress cookie scope"
           assert "PICOCLAW_REF" not in dockerfile, "obsolete source-build argument remains"
-          print("OK: version metadata and Ingress redirect rules")
+          assert 'sub_filter_once off;' in nginx, "missing HTML/JS rewriting"
+          assert 'proxy_set_header Accept-Encoding "";' in nginx, "missing uncompressed response"
+          assert 'sub_filter_types application/javascript text/javascript;' in nginx, "missing JS rewriting"
+          print("OK: version metadata and Ingress URL rewrites")
           PY
+      - name: Validate NGINX syntax
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq nginx
+          sudo cp picoclaw/nginx.conf /etc/nginx/sites-enabled/default
+          sudo nginx -t
       - name: Validate shell script syntax
         run: bash -n picoclaw/run.sh
       - name: Set up Docker Buildx
@@ -46,5 +55,5 @@ jobs:
           push: false
           tags: haos-picoclaw:ci
           build-args: |
-            BUILD_VERSION=0.1.10
+            BUILD_VERSION=0.1.11
             BUILD_ARCH=amd64
