@@ -63,5 +63,5 @@ jobs:
           push: false
           tags: haos-picoclaw:ci
           build-args: |
-            BUILD_VERSION=0.1.15
+            BUILD_VERSION=0.1.16
             BUILD_ARCH=amd64
