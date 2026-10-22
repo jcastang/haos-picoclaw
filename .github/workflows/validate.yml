@@ -12,30 +12,27 @@ jobs:
         uses: actions/checkout@v4
       - name: Install YAML validator
         run: python -m pip install pyyaml
-      - name: Validate YAML files
+      - name: Validate YAML files and Ingress configuration
         run: |
           python - <<'PY'
           from pathlib import Path
           import yaml
 
-          files = [
-              Path("repository.yaml"),
-              Path("picoclaw/config.yaml"),
-              Path("picoclaw/build.yaml"),
-          ]
-          for path in files:
-              with path.open(encoding="utf-8") as stream:
-                  yaml.safe_load(stream)
+          for path in (Path("repository.yaml"), Path("picoclaw/config.yaml"), Path("picoclaw/build.yaml")):
+              yaml.safe_load(path.read_text(encoding="utf-8"))
               print(f"OK: {path}")
 
           config = yaml.safe_load(Path("picoclaw/config.yaml").read_text(encoding="utf-8"))
           build = yaml.safe_load(Path("picoclaw/build.yaml").read_text(encoding="utf-8"))
           dockerfile = Path("picoclaw/Dockerfile").read_text(encoding="utf-8")
+          nginx = Path("picoclaw/nginx.conf").read_text(encoding="utf-8")
           assert config["version"] == build["args"]["BUILD_VERSION"], "config/build version mismatch"
-          assert "FROM ghcr.io/sipeed/picoclaw:launcher" in dockerfile, "expected official Launcher base image"
+          assert "FROM ghcr.io/sipeed/picoclaw:launcher" in dockerfile, "expected official Launcher image"
+          assert f"ARG BUILD_VERSION={config['version']}" in dockerfile, "Dockerfile version mismatch"
+          assert "proxy_redirect ~^(/.*)$ $http_x_ingress_path$1;" in nginx, "missing Ingress Location rewrite"
+          assert 'proxy_cookie_path / "$http_x_ingress_path/";' in nginx, "missing Ingress cookie scope"
           assert "PICOCLAW_REF" not in dockerfile, "obsolete source-build argument remains"
-          print(f"OK: add-on version {config['version']} is consistent")
-          print("OK: Dockerfile uses the official upstream Launcher image")
+          print("OK: version metadata and Ingress redirect rules")
           PY
       - name: Validate shell script syntax
         run: bash -n picoclaw/run.sh
@@ -49,5 +46,5 @@ jobs:
           push: false
           tags: haos-picoclaw:ci
           build-args: |
-            BUILD_VERSION=0.1.9
+            BUILD_VERSION=0.1.10
             BUILD_ARCH=amd64
