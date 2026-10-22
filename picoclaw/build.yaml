@@ -1,2 +1,8 @@
 build_from:
   amd64: ghcr.io/sipeed/picoclaw:launcher
+labels:
+  org.opencontainers.image.title: "PicoClaw"
+  org.opencontainers.image.description: "PicoClaw Launcher via Home Assistant Ingress"
+args:
+  BUILD_VERSION: "0.1.2"
+  BUILD_ARCH: "amd64"
