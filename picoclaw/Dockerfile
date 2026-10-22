@@ -11,7 +11,8 @@ LABEL \
   io.hass.arch="${BUILD_ARCH}"
 
 USER root
-RUN apk add --no-cache bash jq
+RUN apk add --no-cache bash jq nginx
+COPY nginx.conf /etc/nginx/http.d/default.conf
 COPY run.sh /run.sh
 RUN chmod 0755 /run.sh
 ENTRYPOINT ["/bin/bash", "/run.sh"]
