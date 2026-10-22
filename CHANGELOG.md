@@ -2,6 +2,16 @@
 
 All notable changes to this Home Assistant add-on are documented here. Newest entries first.
 
+## [0.1.12] - 2026-10-22
+
+### Fixed
+- Print NGINX configuration validation output during add-on startup, so errors are visible in the Home Assistant add-on journal.
+- If the Ingress URL-rewriting configuration fails NGINX validation at runtime, restore a minimal reverse proxy configuration to avoid blocking the add-on from starting.
+- Keep the 0.1.11 URL-rewriting configuration when its NGINX syntax is accepted.
+
+### Validation
+- Synchronized add-on, Dockerfile, build metadata, and CI version to 0.1.12. A live Home Assistant start and Ingress test are still needed.
+
 ## [0.1.11] - 2026-10-22
 
 ### Changed
