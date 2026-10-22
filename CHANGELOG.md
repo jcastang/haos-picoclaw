@@ -2,6 +2,17 @@
 
 All notable changes to this Home Assistant add-on are documented here. Newest entries first.
 
+## [0.1.20] - 2026-10-22
+
+### Fixed
+- Restore the NGINX fallback removed in 0.1.19 to prevent a configuration validation failure from blocking add-on startup.
+- Keep the fallback explicit and diagnosable through /ingress-status (NGINX FALLBACK OK), with basic relative HTTP redirect handling.
+- Preserve the primary 0.1.19 asset rewriting configuration when nginx -t succeeds.
+- Synchronize version metadata and CI.
+
+### Validation
+- Primary NGINX directives passed nginx -t on local Debian NGINX 1.26.3; the add-on's Alpine runtime remains unverified.
+
 ## [0.1.19] - 2026-10-22
 
 ### Fixed
