@@ -2,6 +2,16 @@
 
 All notable changes to this Home Assistant add-on are documented here. Newest entries first.
 
+## [0.1.17] - 2026-10-22
+
+### Fixed
+- Emit relative HTTP Location redirects instead of absolute redirects built with the add-on's internal port 8099.
+- Preserve the browser's existing Home Assistant Ingress origin and session path when redirecting from the Ingress entrypoint to launcher-login.
+- Apply the same behavior to the fallback NGINX configuration and synchronize release metadata.
+
+### Validation
+- Observed browser navigation to an internal :8099 URL in 0.1.16. Live validation of the new relative redirects is still required.
+
 ## [0.1.16] - 2026-10-22
 
 ### Fixed
