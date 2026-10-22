@@ -53,7 +53,7 @@ LABEL \
 
 RUN apk add --no-cache bash ca-certificates tzdata curl nginx \
     && mkdir -p /run/nginx
-COPY --from=builder /src/build/picoclaw /usr/local/bin/picoclaw
+COPY --from=builder /src/build/picoclaw-linux-amd64 /usr/local/bin/picoclaw
 COPY --from=builder /src/build/picoclaw-launcher /usr/local/bin/picoclaw-launcher
 COPY nginx.conf /etc/nginx/http.d/default.conf
 COPY run.sh /run.sh
