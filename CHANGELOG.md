@@ -2,6 +2,13 @@
 
 All notable changes to this Home Assistant add-on are documented here. Newest entries first.
 
+## [0.1.16] - 2026-10-22
+
+### Fixed
+- Rewrite absolute upstream HTTP Location redirects in addition to root-relative redirects so login navigation can retain the Home Assistant Ingress path.
+- Apply equivalent redirects to the fallback NGINX configuration.
+- Synchronize version metadata. Live Ingress verification is pending.
+
 ## [0.1.15] - 2026-10-22
 
 ### Diagnostics
