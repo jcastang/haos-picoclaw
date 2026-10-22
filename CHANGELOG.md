@@ -2,6 +2,13 @@
 
 All notable changes to this Home Assistant add-on are documented here. Newest entries first.
 
+## [0.1.23] - 2026-10-22
+
+### Maintenance
+- Publish the updated NGINX configuration, synchronize add-on release metadata and diagnostic label.
+- Align CI checks with the existing dynamic Ingress asset rewriting rules.
+- No live Home Assistant validation performed.
+
 ## [0.1.22] - 2026-10-22
 
 ### Diagnostics and fixes
