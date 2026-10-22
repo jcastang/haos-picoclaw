@@ -2,6 +2,21 @@
 
 All notable changes to this Home Assistant add-on are documented here. Newest entries first.
 
+## [0.1.9] - 2026-10-22
+
+### Changed
+- Return to the original integration approach: use the official `ghcr.io/sipeed/picoclaw:launcher` image instead of compiling PicoClaw inside the add-on build.
+- Keep the Home Assistant-specific layer focused on installing NGINX and proxying the Launcher through Ingress.
+- Remove the custom frontend/Go build stages and the now-unneeded `PICOCLAW_REF` build argument.
+- Update the README and CI checks to describe and verify the upstream-image approach.
+
+### Maintained
+- Preserve the existing Ingress prefix rewrite, WebSocket proxy settings, Supervisor-only NGINX access rule, and persistent `/data` storage.
+- Synchronize add-on, Docker image, build metadata, and validation workflow version to `0.1.9`.
+
+### Validation
+- Repository configuration and Docker build workflow updated; a successful GitHub Actions image build and live Home Assistant Ingress test are still required.
+
 ## [0.1.8] - 2026-10-22
 
 ### Fixed
