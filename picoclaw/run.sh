@@ -36,8 +36,14 @@ server {
     server_name _;
     access_log /dev/stdout;
     error_log /dev/stderr info;
-    allow 172.30.32.2;
-    deny all;
+    location = /ingress-status {
+        default_type text/plain;
+        return 200 "NGINX FALLBACK OK - PicoClaw Ingress diagnostic v0.1.15";
+    }
+    location = /ingress-test.html {
+        default_type text/plain;
+        return 200 "NGINX FALLBACK OK - PicoClaw Ingress diagnostic v0.1.15";
+    }
     location / {
         proxy_pass http://127.0.0.1:18800;
         proxy_http_version 1.1;
