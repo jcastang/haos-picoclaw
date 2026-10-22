@@ -13,10 +13,3 @@ ingress_port: 8099
 ingress_panel: true
 panel_title: "PicoClaw"
 panel_icon: "mdi:robot"
-ports:
-  18800/tcp: null
-ports_description:
-  18800/tcp: "Launcher internal port (not exposed on the host)"
-map:
-  - type: data
-    read_only: false
