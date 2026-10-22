@@ -2,6 +2,18 @@
 
 All notable changes to this Home Assistant add-on are documented here. Newest entries first.
 
+## [0.1.10] - 2026-10-22
+
+### Fixed
+- Rewrite Launcher root-relative HTTP redirects (including the first unauthenticated `/launcher-login` redirect) to the Home Assistant Ingress session path, preventing the browser from escaping Ingress and landing on a Home Assistant 404.
+- Scope Launcher authentication cookies to the Ingress session prefix.
+- Preserve the official Launcher image, existing upstream routing, WebSocket proxy and persistent data.
+
+### Validation
+- Add CI assertions for the Ingress redirect and cookie rewrite rules.
+- Synchronize add-on, Dockerfile, build metadata and CI version to `0.1.10`.
+- A successful CI build and real Home Assistant Ingress test remain necessary. The upstream frontend also uses absolute paths for some browser-side navigation and API requests; those are not fixed by this HTTP redirect change.
+
 ## [0.1.9] - 2026-10-22
 
 ### Changed
