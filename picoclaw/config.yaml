@@ -1,5 +1,5 @@
 name: "PicoClaw"
-version: "0.1.6"
+version: "0.1.7"
 slug: "picoclaw"
 description: "PicoClaw Web Launcher, built from official source and integrated via Ingress"
 url: "https://github.com/jcastang/haos-picoclaw"
