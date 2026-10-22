@@ -1,7 +1,7 @@
 name: "PicoClaw"
-version: "0.1.8"
+version: "0.1.9"
 slug: "picoclaw"
-description: "PicoClaw Web Launcher, built from official source and integrated via Ingress"
+description: "Official PicoClaw Launcher, integrated via NGINX and Home Assistant Ingress"
 url: "https://github.com/jcastang/haos-picoclaw"
 arch:
   - amd64
