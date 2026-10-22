@@ -2,7 +2,7 @@
 # adds the NGINX reverse proxy needed to expose it safely through Ingress.
 FROM ghcr.io/sipeed/picoclaw:launcher
 
-ARG BUILD_VERSION=0.1.13
+ARG BUILD_VERSION=0.1.14
 ARG BUILD_ARCH=amd64
 
 LABEL \
@@ -20,6 +20,7 @@ RUN apk add --no-cache bash nginx \
     && mkdir -p /run/nginx
 
 COPY nginx.conf /etc/nginx/http.d/default.conf
+COPY ingress-test.html /usr/share/nginx/html/ingress-test.html
 COPY run.sh /run.sh
 RUN chmod 0755 /run.sh
 
