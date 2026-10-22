@@ -48,6 +48,9 @@ server {
         proxy_pass http://127.0.0.1:18800;
         proxy_http_version 1.1;
         proxy_set_header Host $http_host;
+        proxy_set_header X-Ingress-Path $http_x_ingress_path;
+        proxy_redirect ~^https?://[^/]+(/.*)$ $http_x_ingress_path$1;
+        proxy_redirect ~^(/.*)$ $http_x_ingress_path$1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
         proxy_read_timeout 3600s;
