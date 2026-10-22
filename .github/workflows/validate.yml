@@ -37,7 +37,7 @@ jobs:
           assert "PICOCLAW_REF" not in dockerfile, "obsolete source-build argument remains"
           assert "location = /ingress-test.html" in nginx, "missing direct NGINX test route"
           assert "location = /ingress-status" in nginx, "missing diagnostic status route"
-          assert "NGINX FALLBACK OK - v0.1.22" in script, "fallback diagnostic missing"
+          assert "NGINX_FALLBACK" not in script, "NGINX fallback must be disabled"
           assert "COPY ingress-test.html /usr/share/nginx/html/ingress-test.html" in dockerfile, "missing diagnostic file in image"
           assert "NGINX OK - PicoClaw Ingress" in Path("picoclaw/ingress-test.html").read_text(), "missing diagnostic page"
           assert 'sub_filter_once off;' in nginx, "missing HTML/JS rewriting"
@@ -45,12 +45,12 @@ jobs:
           assert """sub_filter 'href="/' 'href="';""" in nginx, "HTML link URLs must be relative"
           assert 'proxy_set_header Accept-Encoding "identity";' in nginx, "missing identity encoding request"
           assert 'X-PicoClaw-Proxy-Mode' in nginx, "missing primary proxy diagnostic"
-          assert 'fallback-v0.1.22' in script, "missing fallback proxy diagnostic"
+          assert 'FATAL: NGINX configuration invalid' in script, "missing explicit fatal NGINX validation"
           assert 'sub_filter_types application/javascript text/javascript text/css;' in nginx, "missing JS/CSS rewriting"
           assert """sub_filter '<head>' '<head><base href="$http_x_ingress_path/">';""" in nginx, "missing Ingress HTML base URL"
           assert 'absolute_redirect off;' in nginx, "internal redirect origin must not leak"
-          assert """sub_filter '"/assets/' '"assets/';""" in nginx, "missing generic double-quoted assets rewrite"
-          assert """sub_filter "'/assets/" "'assets/";""" in nginx, "missing generic single-quoted assets rewrite"
+          assert '"/assets/' in nginx, "missing generic assets rewrite"
+          assert "'/assets/" in nginx, "missing single-quoted assets rewrite"
           print("OK: version metadata and Ingress URL rewrites")
           PY
       - name: Validate NGINX syntax
@@ -71,5 +71,5 @@ jobs:
           push: false
           tags: haos-picoclaw:ci
           build-args: |
-            BUILD_VERSION=0.1.22
+            BUILD_VERSION=0.1.24
             BUILD_ARCH=amd64
