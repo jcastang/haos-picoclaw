@@ -32,7 +32,7 @@ jobs:
           assert "-port 18800 -host 127.0.0.1" in script, "Launcher must bind to the NGINX upstream address"
           assert "FROM ghcr.io/sipeed/picoclaw:launcher" in dockerfile, "expected official Launcher image"
           assert f"ARG BUILD_VERSION={config['version']}" in dockerfile, "Dockerfile version mismatch"
-          assert "proxy_redirect ~^/launcher-login([?#].*)?$ launcher-login$1;" in nginx, "missing relative login redirect"
+          assert 'proxy_redirect "~^/launcher-login([?#].*)?$" "launcher-login$1";' in nginx, "missing relative login redirect"
           assert 'proxy_cookie_path / "$http_x_ingress_path/";' in nginx, "missing Ingress cookie scope"
           assert "PICOCLAW_REF" not in dockerfile, "obsolete source-build argument remains"
           assert "location = /ingress-test.html" in nginx, "missing direct NGINX test route"
