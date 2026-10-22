@@ -41,6 +41,8 @@ jobs:
           assert "COPY ingress-test.html /usr/share/nginx/html/ingress-test.html" in dockerfile, "missing diagnostic file in image"
           assert "NGINX OK - PicoClaw Ingress" in Path("picoclaw/ingress-test.html").read_text(), "missing diagnostic page"
           assert 'sub_filter_once off;' in nginx, "missing HTML/JS rewriting"
+          assert """sub_filter 'src="/' 'src="';""" in nginx, "HTML script URLs must be relative"
+          assert """sub_filter 'href="/' 'href="';""" in nginx, "HTML link URLs must be relative"
           assert 'proxy_set_header Accept-Encoding "";' in nginx, "missing uncompressed response"
           assert 'sub_filter_types application/javascript text/javascript;' in nginx, "missing JS rewriting"
           print("OK: version metadata and Ingress URL rewrites")
@@ -63,5 +65,5 @@ jobs:
           push: false
           tags: haos-picoclaw:ci
           build-args: |
-            BUILD_VERSION=0.1.17
+            BUILD_VERSION=0.1.18
             BUILD_ARCH=amd64
