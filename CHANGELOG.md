@@ -2,6 +2,17 @@
 
 All notable changes to this Home Assistant add-on are documented here. Newest entries first.
 
+## [0.1.15] - 2026-10-22
+
+### Diagnostics
+- Add /ingress-status returning HTTP 200 directly from NGINX without contacting PicoClaw or reading a file.
+- Make the fallback NGINX configuration serve both /ingress-status and /ingress-test.html, even when the primary configuration is invalid.
+- Temporarily remove the NGINX source-IP restriction on internal port 8099 for Ingress troubleshooting; the port remains unpublished.
+- Synchronize versions and CI assertions.
+
+### Validation
+- Test the endpoint through Home Assistant Ingress; live verification remains necessary.
+
 ## [0.1.14] - 2026-10-22
 
 ### Added
