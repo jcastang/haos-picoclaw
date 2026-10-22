@@ -49,8 +49,12 @@ server {
         proxy_http_version 1.1;
         proxy_set_header Host $http_host;
         proxy_set_header X-Ingress-Path $http_x_ingress_path;
-        proxy_redirect ~^https?://[^/]+(/.*)$ $http_x_ingress_path$1;
-        proxy_redirect ~^(/.*)$ $http_x_ingress_path$1;
+        # Relative Location avoids leaking the add-on's internal :8099 origin.
+        # The entrypoint URL ends in /, so "launcher-login" resolves inside Ingress.
+        proxy_redirect ~^https?://[^/]+/launcher-login([?#].*)?$ launcher-login$1;
+        proxy_redirect ~^/launcher-login([?#].*)?$ launcher-login$1;
+        proxy_redirect ~^https?://[^/]+/(.*)$ $1;
+        proxy_redirect ~^/(.*)$ $1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
         proxy_read_timeout 3600s;
