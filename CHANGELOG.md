@@ -2,6 +2,18 @@
 
 All notable changes to this Home Assistant add-on are documented here. Newest entries first.
 
+## [0.1.14] - 2026-10-22
+
+### Added
+- A standalone /ingress-test.html diagnostic page served directly by NGINX on port 8099, bypassing the PicoClaw Launcher upstream entirely.
+- X-PicoClaw-Proxy-Test: nginx-direct response header to identify successful NGINX handling.
+- CI checks ensuring the diagnostic page is included in the Docker image and its NGINX route exists.
+
+### Validation
+- If the test page opens through Home Assistant Ingress, Supervisor-to-NGINX routing works and remaining 404s are downstream or URL-related.
+- If the test page also returns 404, investigate Supervisor Ingress routing/session rather than PicoClaw.
+- Version metadata synchronized to 0.1.14; live verification pending.
+
 ## [0.1.13] - 2026-10-22
 
 ### Fixed
