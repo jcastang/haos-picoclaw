@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.25] - 2026-10-22
+
+### Fixed
+- Fix an unterminated quoted `sub_filter` argument that caused NGINX to fail configuration validation and the add-on to exit at startup.
+- Quote login redirect regular expressions for reliable NGINX parsing.
+
+### Validation
+- Add Docker image build and NGINX startup/HTTP smoke-test GitHub Action.
+- Fail image builds when `nginx -t` fails inside the Alpine-based image.
+- Docker smoke-test build reported successful before release; live Home Assistant Ingress behavior still needs verification.
+
+
 All notable changes to this Home Assistant add-on are documented here. Newest entries first.
 
 ## [0.1.24] - 2026-10-22
