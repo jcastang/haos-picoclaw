@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.28] - 2026-10-22
+
+### Fixed
+- Serve a small Ingress compatibility script through NGINX, injected before the official Launcher JavaScript executes.
+- Intercept root-absolute fetch('/api/...') requests and route them through the current Home Assistant Ingress prefix, without changing the upstream PicoClaw frontend.
+- Avoid depending on the optional X-Ingress-Path header to load the shim.
+
+### Validation
+- GitHub Actions Docker smoke test and live Home Assistant verification pending.
+
+
 ## [0.1.27] - 2026-10-22
 
 ### Fixed
