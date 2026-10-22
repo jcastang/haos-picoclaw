@@ -27,6 +27,29 @@ export PICOCLAW_GATEWAY_HOST="0.0.0.0"
 echo "[PicoClaw app] Persistent home: ${PICOCLAW_HOME}"
 echo "[PicoClaw app] Config file: ${PICOCLAW_CONFIG}"
 echo "[PicoClaw app] Gateway bind host: ${PICOCLAW_GATEWAY_HOST}"
+echo "[PicoClaw app] Checking NGINX configuration..."
+if ! nginx -t 2>&1; then
+  echo "[PicoClaw app] ERROR: NGINX configuration is invalid; restoring minimal reverse proxy."
+  cat > /etc/nginx/http.d/default.conf <<'NGINX_FALLBACK'
+server {
+    listen 8099;
+    server_name _;
+    access_log /dev/stdout;
+    error_log /dev/stderr info;
+    allow 172.30.32.2;
+    deny all;
+    location / {
+        proxy_pass http://127.0.0.1:18800;
+        proxy_http_version 1.1;
+        proxy_set_header Host $http_host;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_read_timeout 3600s;
+    }
+}
+NGINX_FALLBACK
+  nginx -t 2>&1 || { echo "[PicoClaw app] FATAL: fallback NGINX configuration failed"; exit 1; }
+fi
 echo "[PicoClaw app] Starting Launcher on internal port 18800"
 /usr/local/bin/picoclaw-launcher -console -public -no-browser &
 launcher_pid=$!
@@ -36,4 +59,5 @@ cleanup() {
 }
 trap cleanup EXIT TERM INT
 
+echo "[PicoClaw app] Starting NGINX Ingress listener on port 8099"
 nginx -g 'daemon off;'
