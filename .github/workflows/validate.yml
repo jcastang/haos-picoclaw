@@ -27,7 +27,9 @@ jobs:
           dockerfile = Path("picoclaw/Dockerfile").read_text(encoding="utf-8")
           nginx = Path("picoclaw/nginx.conf").read_text(encoding="utf-8")
           assert config["version"] == build["args"]["BUILD_VERSION"], "config/build version mismatch"
-          assert "nginx -t 2>&1" in Path("picoclaw/run.sh").read_text(), "missing NGINX startup diagnostics"
+          script = Path("picoclaw/run.sh").read_text()
+          assert "nginx -t 2>&1" in script, "missing NGINX startup diagnostics"
+          assert "-port 18800 -host 127.0.0.1" in script, "Launcher must bind to the NGINX upstream address"
           assert "FROM ghcr.io/sipeed/picoclaw:launcher" in dockerfile, "expected official Launcher image"
           assert f"ARG BUILD_VERSION={config['version']}" in dockerfile, "Dockerfile version mismatch"
           assert "proxy_redirect ~^(/.*)$ $http_x_ingress_path$1;" in nginx, "missing Ingress Location rewrite"
@@ -56,5 +58,5 @@ jobs:
           push: false
           tags: haos-picoclaw:ci
           build-args: |
-            BUILD_VERSION=0.1.12
+            BUILD_VERSION=0.1.13
             BUILD_ARCH=amd64
