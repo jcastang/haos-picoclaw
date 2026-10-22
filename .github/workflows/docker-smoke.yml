@@ -1,0 +1,30 @@
+name: Docker NGINX smoke test
+on:
+  push:
+    paths:
+      - 'picoclaw/**'
+      - '.github/workflows/docker-smoke.yml'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  docker-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build addon image (includes nginx -t)
+        run: docker build --progress=plain --tag picoclaw-smoke:ci ./picoclaw
+      - name: Validate NGINX in built image
+        run: docker run --rm --entrypoint nginx picoclaw-smoke:ci -t
+      - name: Start NGINX and check internal status
+        run: |
+          docker run -d --name picoclaw-smoke --entrypoint nginx -p 18099:8099 picoclaw-smoke:ci -g 'daemon off;'
+          trap 'docker logs picoclaw-smoke; docker rm -f picoclaw-smoke' EXIT
+          for i in $(seq 1 20); do
+            if curl --fail --silent http://127.0.0.1:18099/ingress-status; then
+              exit 0
+            fi
+            sleep 1
+          done
+          exit 1
