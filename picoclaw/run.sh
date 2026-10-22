@@ -28,41 +28,9 @@ echo "[PicoClaw app] Persistent home: ${PICOCLAW_HOME}"
 echo "[PicoClaw app] Config file: ${PICOCLAW_CONFIG}"
 echo "[PicoClaw app] Gateway bind host: ${PICOCLAW_GATEWAY_HOST}"
 echo "[PicoClaw app] Checking NGINX configuration..."
-if ! nginx -t 2>&1; then
-  echo "[PicoClaw app] ERROR: NGINX configuration is invalid; restoring minimal reverse proxy."
-  cat > /etc/nginx/http.d/default.conf <<'NGINX_FALLBACK'
-server {
-    listen 8099;
-    server_name _;
-    access_log /dev/stdout;
-    error_log /dev/stderr info;
-    location = /ingress-status {
-        default_type text/plain;
-        return 200 "NGINX FALLBACK OK - PicoClaw Ingress diagnostic v0.1.15";
-    }
-    location = /ingress-test.html {
-        default_type text/plain;
-        return 200 "NGINX FALLBACK OK - PicoClaw Ingress diagnostic v0.1.15";
-    }
-    location / {
-        proxy_pass http://127.0.0.1:18800;
-        proxy_http_version 1.1;
-        proxy_set_header Host $http_host;
-        proxy_set_header X-Ingress-Path $http_x_ingress_path;
-        # Relative Location avoids leaking the add-on's internal :8099 origin.
-        # The entrypoint URL ends in /, so "launcher-login" resolves inside Ingress.
-        proxy_redirect ~^https?://[^/]+/launcher-login([?#].*)?$ launcher-login$1;
-        proxy_redirect ~^/launcher-login([?#].*)?$ launcher-login$1;
-        proxy_redirect ~^https?://[^/]+/(.*)$ $1;
-        proxy_redirect ~^/(.*)$ $1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_read_timeout 3600s;
-    }
-}
-NGINX_FALLBACK
-  nginx -t 2>&1 || { echo "[PicoClaw app] FATAL: fallback NGINX configuration failed"; exit 1; }
-fi
+# Do not silently fall back to a proxy without Ingress asset rewriting.
+# Such a fallback makes the add-on look healthy but breaks every /assets/* URL.
+nginx -t 2>&1 || { echo "[PicoClaw app] FATAL: NGINX configuration invalid"; exit 1; }
 echo "[PicoClaw app] Starting Launcher bound to 127.0.0.1:18800"
 /usr/local/bin/picoclaw-launcher -console -port 18800 -host 127.0.0.1 -no-browser &
 launcher_pid=$!
