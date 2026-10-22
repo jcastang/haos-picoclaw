@@ -39,6 +39,7 @@ jobs:
           assert "location = /ingress-status" in nginx, "missing diagnostic status route"
           assert "NGINX_FALLBACK" not in script, "NGINX fallback must be disabled"
           assert "COPY ingress-test.html /usr/share/nginx/html/ingress-test.html" in dockerfile, "missing diagnostic file in image"
+          assert "COPY ingress-api-shim.js /usr/share/nginx/html/ingress-api-shim.js" in dockerfile, "missing API shim in image"
           assert "NGINX OK - PicoClaw Ingress" in Path("picoclaw/ingress-test.html").read_text(), "missing diagnostic page"
           assert 'sub_filter_once off;' in nginx, "missing HTML/JS rewriting"
           assert """sub_filter 'src="/' 'src="';""" in nginx, "HTML script URLs must be relative"
@@ -71,5 +72,5 @@ jobs:
           push: false
           tags: haos-picoclaw:ci
           build-args: |
-            BUILD_VERSION=0.1.27
+            BUILD_VERSION=0.1.28
             BUILD_ARCH=amd64
