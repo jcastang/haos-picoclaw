@@ -14,8 +14,8 @@ if [[ ! -L "${PICO_DIR}" ]]; then
   ln -s "${DATA_DIR}" "${PICO_DIR}"
 fi
 
-echo "[PicoClaw app] Starting Launcher on port 18800"
- /usr/local/bin/picoclaw-launcher -public &
+echo "[PicoClaw app] Starting Launcher on internal port 18800"
+/usr/local/bin/picoclaw-launcher -console -public -no-browser &
 launcher_pid=$!
 
 cleanup() {
@@ -23,6 +23,4 @@ cleanup() {
 }
 trap cleanup EXIT TERM INT
 
-# Keep nginx in the foreground. Home Assistant Supervisor routes Ingress traffic
-# to port 8099; nginx restricts direct access to the Supervisor network address.
 nginx -g 'daemon off;'
