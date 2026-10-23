@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.29] - 2026-10-23
+
+### Fixed
+- Rewrite root-absolute `/launcher-login` and `/launcher-setup` JavaScript strings to relative paths in NGINX so browser redirects stay inside Home Assistant Ingress.
+- Preserve existing upstream HTTP `Location` redirect handling.
+
+
 ## [0.1.28] - 2026-10-22
 
 ### Fixed
