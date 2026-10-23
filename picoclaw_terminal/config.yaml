@@ -1,0 +1,16 @@
+name: "PicoClaw Terminal"
+version: "0.1.0"
+slug: "picoclaw_terminal"
+description: "PicoClaw CLI and Discord gateway with an Ingress web terminal"
+url: "https://github.com/jcastang/haos-picoclaw"
+arch:
+  - amd64
+startup: application
+boot: auto
+init: false
+ingress: true
+ingress_port: 8099
+ingress_stream: true
+ingress_panel: true
+panel_title: "PicoClaw Terminal"
+panel_icon: "mdi:console"
